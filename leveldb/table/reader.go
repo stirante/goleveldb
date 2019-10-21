@@ -7,6 +7,8 @@
 package table
 
 import (
+	"bytes"
+	"compress/flate"
 	"encoding/binary"
 	"fmt"
 	"io"
@@ -559,6 +561,12 @@ func (r *Reader) fixErrCorruptedBH(bh blockHandle, err error) error {
 	return err
 }
 
+var bufferPool = sync.Pool{
+	New: func() interface{} {
+		return bytes.NewBuffer(make([]byte, 0, 4096))
+	},
+}
+
 func (r *Reader) readRawBlock(bh blockHandle, verifyChecksum bool) ([]byte, error) {
 	data := r.bpool.Get(int(bh.length + blockTrailerLen))
 	if _, err := r.reader.ReadAt(data, int64(bh.offset)); err != nil && err != io.EOF {
@@ -592,6 +600,20 @@ func (r *Reader) readRawBlock(bh blockHandle, verifyChecksum bool) ([]byte, erro
 			return nil, r.newErrCorruptedBH(bh, err.Error())
 		}
 		data = decData
+	case blockTypeFlateCompression:
+		buf := bufferPool.Get().(*bytes.Buffer)
+
+		reader := flate.NewReader(bytes.NewBuffer(data[:bh.length]))
+		_, _ = buf.ReadFrom(reader)
+
+		if err := reader.Close(); err != nil {
+			buf.Reset()
+			bufferPool.Put(buf)
+			return nil, r.newErrCorruptedBH(bh, err.Error())
+		}
+		data = append([]byte(nil), buf.Bytes()...)
+		buf.Reset()
+		bufferPool.Put(buf)
 	default:
 		r.bpool.Put(data)
 		return nil, r.newErrCorruptedBH(bh, fmt.Sprintf("unknown compression type %#x", data[bh.length]))

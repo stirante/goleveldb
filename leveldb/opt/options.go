@@ -34,7 +34,7 @@ var (
 	DefaultCompactionTableSizeMultiplier = 1.0
 	DefaultCompactionTotalSize           = 10 * MiB
 	DefaultCompactionTotalSizeMultiplier = 10.0
-	DefaultCompressionType               = SnappyCompression
+	DefaultCompressionType               = FlateCompression
 	DefaultIteratorSamplingRate          = 1 * MiB
 	DefaultOpenFilesCacher               = LRUCacher
 	DefaultOpenFilesCacheCapacity        = 500
@@ -88,6 +88,7 @@ const (
 	DefaultCompression Compression = iota
 	NoCompression
 	SnappyCompression
+	FlateCompression
 	nCompression
 )
 

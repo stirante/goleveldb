@@ -7,10 +7,13 @@
 package table
 
 import (
+	"bytes"
+	"compress/flate"
 	"encoding/binary"
 	"errors"
 	"fmt"
 	"io"
+	"sync"
 
 	"github.com/golang/snappy"
 
@@ -159,10 +162,15 @@ type Writer struct {
 	compressionScratch []byte
 }
 
+var mutex = sync.Mutex{}
+var compressed = &bytes.Buffer{}
+var writer, _ = flate.NewWriter(compressed, flate.DefaultCompression)
+
 func (w *Writer) writeBlock(buf *util.Buffer, compression opt.Compression) (bh blockHandle, err error) {
 	// Compress the buffer if necessary.
 	var b []byte
-	if compression == opt.SnappyCompression {
+	switch compression {
+	case opt.SnappyCompression:
 		// Allocate scratch enough for compression and block trailer.
 		if n := snappy.MaxEncodedLen(buf.Len()) + blockTrailerLen; len(w.compressionScratch) < n {
 			w.compressionScratch = make([]byte, n)
@@ -171,7 +179,28 @@ func (w *Writer) writeBlock(buf *util.Buffer, compression opt.Compression) (bh b
 		n := len(compressed)
 		b = compressed[:n+blockTrailerLen]
 		b[n] = blockTypeSnappyCompression
-	} else {
+	case opt.FlateCompression:
+		mutex.Lock()
+		if _, err := writer.Write(buf.Bytes()); err != nil {
+			return blockHandle{}, fmt.Errorf("writeBlock: flate compression failed: %v", err)
+		}
+		if err := writer.Close(); err != nil {
+			return blockHandle{}, fmt.Errorf("writeBlock: flushing flate writer failed: %v", err)
+		}
+		mutex.Unlock()
+
+		length := compressed.Len()
+		if compressed.Cap() < length+blockTrailerLen {
+			// Grow the compressed data by the block trailer length if its capacity isn't big enough.
+			compressed.Grow(blockTrailerLen)
+		}
+		b = append([]byte(nil), compressed.Bytes()[:length+blockTrailerLen]...)
+
+		compressed.Reset()
+		writer.Reset(compressed)
+		b[length] = blockTypeFlateCompression
+
+	default:
 		tmp := buf.Alloc(blockTrailerLen)
 		tmp[0] = blockTypeNoCompression
 		b = buf.Bytes()
