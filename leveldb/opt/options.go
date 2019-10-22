@@ -88,6 +88,7 @@ const (
 	DefaultCompression Compression = iota
 	NoCompression
 	SnappyCompression
+	_
 	FlateCompression
 	nCompression
 )
