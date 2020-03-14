@@ -566,6 +566,8 @@ var bufferPool = sync.Pool{
 		return bytes.NewBuffer(make([]byte, 0, 4096))
 	},
 }
+var reader io.ReadCloser
+var rmu sync.Mutex
 
 func (r *Reader) readRawBlock(bh blockHandle, verifyChecksum bool) ([]byte, error) {
 	data := r.bpool.Get(int(bh.length + blockTrailerLen))
@@ -603,16 +605,24 @@ func (r *Reader) readRawBlock(bh blockHandle, verifyChecksum bool) ([]byte, erro
 	case blockTypeFlateCompression:
 		buf := bufferPool.Get().(*bytes.Buffer)
 
-		reader := flate.NewReader(bytes.NewBuffer(data[:bh.length]))
+		rmu.Lock()
+		if reader == nil {
+			reader = flate.NewReader(bytes.NewBuffer(data[:bh.length]))
+		} else {
+			_ = reader.(flate.Resetter).Reset(bytes.NewBuffer(data[:bh.length]), nil)
+		}
 		_, _ = buf.ReadFrom(reader)
 
 		if err := reader.Close(); err != nil {
 			buf.Reset()
 			bufferPool.Put(buf)
+			rmu.Unlock()
 			return nil, r.newErrCorruptedBH(bh, err.Error())
 		}
 		data = append([]byte(nil), buf.Bytes()...)
 		buf.Reset()
+		rmu.Unlock()
+
 		bufferPool.Put(buf)
 	default:
 		r.bpool.Put(data)
