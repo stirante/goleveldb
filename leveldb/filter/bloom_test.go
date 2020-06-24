@@ -8,7 +8,7 @@ package filter
 
 import (
 	"encoding/binary"
-	"github.com/dragonfly-tech/goleveldb/leveldb/util"
+	"github.com/df-mc/golevelb/leveldb/util"
 	"testing"
 )
 

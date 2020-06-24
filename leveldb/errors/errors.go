@@ -11,8 +11,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/dragonfly-tech/goleveldb/leveldb/storage"
-	"github.com/dragonfly-tech/goleveldb/leveldb/util"
+	"github.com/df-mc/golevelb/leveldb/storage"
+	"github.com/df-mc/golevelb/leveldb/util"
 )
 
 // Common errors.

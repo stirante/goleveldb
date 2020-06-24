@@ -11,7 +11,7 @@ package iterator
 import (
 	"errors"
 
-	"github.com/dragonfly-tech/goleveldb/leveldb/util"
+	"github.com/df-mc/golevelb/leveldb/util"
 )
 
 var (

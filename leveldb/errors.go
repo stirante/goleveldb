@@ -7,7 +7,7 @@
 package leveldb
 
 import (
-	"github.com/dragonfly-tech/goleveldb/leveldb/errors"
+	"github.com/df-mc/golevelb/leveldb/errors"
 )
 
 // Common errors.

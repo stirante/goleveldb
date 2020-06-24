@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dragonfly-tech/goleveldb/leveldb/storage"
-	"github.com/dragonfly-tech/goleveldb/leveldb/testutil"
+	"github.com/df-mc/golevelb/leveldb/storage"
+	"github.com/df-mc/golevelb/leveldb/testutil"
 	"github.com/onsi/gomega"
 )
 

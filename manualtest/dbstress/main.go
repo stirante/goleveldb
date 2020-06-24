@@ -19,12 +19,12 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/dragonfly-tech/goleveldb/leveldb"
-	"github.com/dragonfly-tech/goleveldb/leveldb/errors"
-	"github.com/dragonfly-tech/goleveldb/leveldb/opt"
-	"github.com/dragonfly-tech/goleveldb/leveldb/storage"
-	"github.com/dragonfly-tech/goleveldb/leveldb/table"
-	"github.com/dragonfly-tech/goleveldb/leveldb/util"
+	"github.com/df-mc/golevelb/leveldb"
+	"github.com/df-mc/golevelb/leveldb/errors"
+	"github.com/df-mc/golevelb/leveldb/opt"
+	"github.com/df-mc/golevelb/leveldb/storage"
+	"github.com/df-mc/golevelb/leveldb/table"
+	"github.com/df-mc/golevelb/leveldb/util"
 )
 
 var (

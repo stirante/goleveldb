@@ -10,9 +10,9 @@ package opt
 import (
 	"math"
 
-	"github.com/dragonfly-tech/goleveldb/leveldb/cache"
-	"github.com/dragonfly-tech/goleveldb/leveldb/comparer"
-	"github.com/dragonfly-tech/goleveldb/leveldb/filter"
+	"github.com/df-mc/golevelb/leveldb/cache"
+	"github.com/df-mc/golevelb/leveldb/comparer"
+	"github.com/df-mc/golevelb/leveldb/filter"
 )
 
 const (

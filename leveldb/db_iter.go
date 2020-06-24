@@ -13,9 +13,9 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/dragonfly-tech/goleveldb/leveldb/iterator"
-	"github.com/dragonfly-tech/goleveldb/leveldb/opt"
-	"github.com/dragonfly-tech/goleveldb/leveldb/util"
+	"github.com/df-mc/golevelb/leveldb/iterator"
+	"github.com/df-mc/golevelb/leveldb/opt"
+	"github.com/df-mc/golevelb/leveldb/util"
 )
 
 var (

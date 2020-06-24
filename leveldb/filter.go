@@ -7,7 +7,7 @@
 package leveldb
 
 import (
-	"github.com/dragonfly-tech/goleveldb/leveldb/filter"
+	"github.com/df-mc/golevelb/leveldb/filter"
 )
 
 type iFilter struct {

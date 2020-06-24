@@ -1,7 +1,7 @@
 package leveldb
 
 import (
-	"github.com/dragonfly-tech/goleveldb/leveldb/storage"
+	"github.com/df-mc/golevelb/leveldb/storage"
 	"sync/atomic"
 )
 

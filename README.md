@@ -5,7 +5,7 @@ This is an implementation of the [LevelDB key/value database](http:code.google.c
 Installation
 -----------
 
-	go get github.com/dragonfly-tech/goleveldb/leveldb
+	go get github.com/df-mc/golevelb/leveldb
 
 Requirements
 -----------
@@ -104,4 +104,4 @@ defer db.Close()
 Documentation
 -----------
 
-You can read package documentation [here](http:godoc.org/github.com/dragonfly-tech/goleveldb).
+You can read package documentation [here](http:godoc.org/github.com/df-mc/golevelb).

@@ -16,9 +16,9 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"github.com/dragonfly-tech/goleveldb/leveldb/iterator"
-	"github.com/dragonfly-tech/goleveldb/leveldb/opt"
-	"github.com/dragonfly-tech/goleveldb/leveldb/storage"
+	"github.com/df-mc/golevelb/leveldb/iterator"
+	"github.com/df-mc/golevelb/leveldb/opt"
+	"github.com/df-mc/golevelb/leveldb/storage"
 )
 
 func randomString(r *rand.Rand, n int) []byte {

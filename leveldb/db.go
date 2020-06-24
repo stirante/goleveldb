@@ -17,14 +17,14 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/dragonfly-tech/goleveldb/leveldb/errors"
-	"github.com/dragonfly-tech/goleveldb/leveldb/iterator"
-	"github.com/dragonfly-tech/goleveldb/leveldb/journal"
-	"github.com/dragonfly-tech/goleveldb/leveldb/memdb"
-	"github.com/dragonfly-tech/goleveldb/leveldb/opt"
-	"github.com/dragonfly-tech/goleveldb/leveldb/storage"
-	"github.com/dragonfly-tech/goleveldb/leveldb/table"
-	"github.com/dragonfly-tech/goleveldb/leveldb/util"
+	"github.com/df-mc/golevelb/leveldb/errors"
+	"github.com/df-mc/golevelb/leveldb/iterator"
+	"github.com/df-mc/golevelb/leveldb/journal"
+	"github.com/df-mc/golevelb/leveldb/memdb"
+	"github.com/df-mc/golevelb/leveldb/opt"
+	"github.com/df-mc/golevelb/leveldb/storage"
+	"github.com/df-mc/golevelb/leveldb/table"
+	"github.com/df-mc/golevelb/leveldb/util"
 )
 
 // DB is a LevelDB database.

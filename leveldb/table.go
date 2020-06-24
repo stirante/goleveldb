@@ -12,12 +12,12 @@ import (
 	"sort"
 	"sync/atomic"
 
-	"github.com/dragonfly-tech/goleveldb/leveldb/cache"
-	"github.com/dragonfly-tech/goleveldb/leveldb/iterator"
-	"github.com/dragonfly-tech/goleveldb/leveldb/opt"
-	"github.com/dragonfly-tech/goleveldb/leveldb/storage"
-	"github.com/dragonfly-tech/goleveldb/leveldb/table"
-	"github.com/dragonfly-tech/goleveldb/leveldb/util"
+	"github.com/df-mc/golevelb/leveldb/cache"
+	"github.com/df-mc/golevelb/leveldb/iterator"
+	"github.com/df-mc/golevelb/leveldb/opt"
+	"github.com/df-mc/golevelb/leveldb/storage"
+	"github.com/df-mc/golevelb/leveldb/table"
+	"github.com/df-mc/golevelb/leveldb/util"
 )
 
 // tFile holds basic information about a table.
