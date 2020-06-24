@@ -7,7 +7,7 @@
 package leveldb
 
 import (
-	"github.com/df-mc/golevelb/leveldb/errors"
+	"github.com/df-mc/goleveldb/leveldb/errors"
 )
 
 // Common errors.

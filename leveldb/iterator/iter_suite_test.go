@@ -3,7 +3,7 @@ package iterator_test
 import (
 	"testing"
 
-	"github.com/df-mc/golevelb/leveldb/testutil"
+	"github.com/df-mc/goleveldb/leveldb/testutil"
 )
 
 func TestIterator(t *testing.T) {

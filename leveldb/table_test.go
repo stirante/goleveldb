@@ -12,8 +12,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/df-mc/golevelb/leveldb/storage"
-	"github.com/df-mc/golevelb/leveldb/testutil"
+	"github.com/df-mc/goleveldb/leveldb/storage"
+	"github.com/df-mc/goleveldb/leveldb/testutil"
 	"github.com/onsi/gomega"
 )
 

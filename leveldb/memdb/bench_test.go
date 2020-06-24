@@ -11,7 +11,7 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/df-mc/golevelb/leveldb/comparer"
+	"github.com/df-mc/goleveldb/leveldb/comparer"
 )
 
 func BenchmarkPut(b *testing.B) {

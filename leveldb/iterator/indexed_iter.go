@@ -7,8 +7,8 @@
 package iterator
 
 import (
-	"github.com/df-mc/golevelb/leveldb/errors"
-	"github.com/df-mc/golevelb/leveldb/util"
+	"github.com/df-mc/goleveldb/leveldb/errors"
+	"github.com/df-mc/goleveldb/leveldb/util"
 )
 
 // IteratorIndexer is the interface that wraps CommonIterator and basic Get

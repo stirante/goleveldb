@@ -1,4 +1,4 @@
-module github.com/df-mc/golevelb
+module github.com/df-mc/goleveldb
 
 require (
 	github.com/golang/snappy v0.0.1

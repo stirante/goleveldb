@@ -12,8 +12,8 @@ import (
 	"io"
 	"strings"
 
-	"github.com/df-mc/golevelb/leveldb/errors"
-	"github.com/df-mc/golevelb/leveldb/storage"
+	"github.com/df-mc/goleveldb/leveldb/errors"
+	"github.com/df-mc/goleveldb/leveldb/storage"
 )
 
 type byteReader interface {

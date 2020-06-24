@@ -12,12 +12,12 @@ import (
 	"sort"
 	"sync/atomic"
 
-	"github.com/df-mc/golevelb/leveldb/cache"
-	"github.com/df-mc/golevelb/leveldb/iterator"
-	"github.com/df-mc/golevelb/leveldb/opt"
-	"github.com/df-mc/golevelb/leveldb/storage"
-	"github.com/df-mc/golevelb/leveldb/table"
-	"github.com/df-mc/golevelb/leveldb/util"
+	"github.com/df-mc/goleveldb/leveldb/cache"
+	"github.com/df-mc/goleveldb/leveldb/iterator"
+	"github.com/df-mc/goleveldb/leveldb/opt"
+	"github.com/df-mc/goleveldb/leveldb/storage"
+	"github.com/df-mc/goleveldb/leveldb/table"
+	"github.com/df-mc/goleveldb/leveldb/util"
 )
 
 // tFile holds basic information about a table.

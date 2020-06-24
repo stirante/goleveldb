@@ -11,8 +11,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/df-mc/golevelb/leveldb/journal"
-	"github.com/df-mc/golevelb/leveldb/storage"
+	"github.com/df-mc/goleveldb/leveldb/journal"
+	"github.com/df-mc/goleveldb/leveldb/storage"
 )
 
 // Logging.

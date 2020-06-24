@@ -14,9 +14,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/df-mc/golevelb/leveldb/filter"
-	"github.com/df-mc/golevelb/leveldb/opt"
-	"github.com/df-mc/golevelb/leveldb/storage"
+	"github.com/df-mc/goleveldb/leveldb/filter"
+	"github.com/df-mc/goleveldb/leveldb/opt"
+	"github.com/df-mc/goleveldb/leveldb/storage"
 )
 
 const ctValSize = 1000
