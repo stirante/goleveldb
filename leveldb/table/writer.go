@@ -8,10 +8,10 @@ package table
 
 import (
 	"bytes"
-	"compress/flate"
 	"encoding/binary"
 	"errors"
 	"fmt"
+	"github.com/klauspost/compress/flate"
 	"io"
 	"sync"
 
@@ -164,7 +164,7 @@ type Writer struct {
 
 var mutex = sync.Mutex{}
 var compressed = &bytes.Buffer{}
-var writer, _ = flate.NewWriter(compressed, flate.DefaultCompression)
+var writer, _ = flate.NewWriter(compressed, 5)
 
 func (w *Writer) writeBlock(buf *util.Buffer, compression opt.Compression) (bh blockHandle, err error) {
 	// Compress the buffer if necessary.

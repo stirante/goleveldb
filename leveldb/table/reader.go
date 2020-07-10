@@ -8,9 +8,9 @@ package table
 
 import (
 	"bytes"
-	"compress/flate"
 	"encoding/binary"
 	"fmt"
+	"github.com/klauspost/compress/flate"
 	"io"
 	"sort"
 	"strings"
