@@ -187,8 +187,6 @@ func (w *Writer) writeBlock(buf *util.Buffer, compression opt.Compression) (bh b
 		if err := writer.Close(); err != nil {
 			return blockHandle{}, fmt.Errorf("writeBlock: flushing flate writer failed: %v", err)
 		}
-		mutex.Unlock()
-
 		length := compressed.Len()
 		if compressed.Cap() < length+blockTrailerLen {
 			// Grow the compressed data by the block trailer length if its capacity isn't big enough.
@@ -198,8 +196,9 @@ func (w *Writer) writeBlock(buf *util.Buffer, compression opt.Compression) (bh b
 
 		compressed.Reset()
 		writer.Reset(compressed)
-		b[length] = blockTypeFlateCompression
+		mutex.Unlock()
 
+		b[length] = blockTypeFlateCompression
 	default:
 		tmp := buf.Alloc(blockTrailerLen)
 		tmp[0] = blockTypeNoCompression
