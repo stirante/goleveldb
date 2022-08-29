@@ -35,6 +35,7 @@ var (
 	DefaultCompactionTotalSize           = 10 * MiB
 	DefaultCompactionTotalSizeMultiplier = 10.0
 	DefaultCompressionType               = FlateCompression
+	DefaultCompressionLevel              = 8
 	DefaultIteratorSamplingRate          = 1 * MiB
 	DefaultOpenFilesCacher               = LRUCacher
 	DefaultOpenFilesCacheCapacity        = 500
@@ -256,6 +257,11 @@ type Options struct {
 	//
 	// The default value (DefaultCompression) uses snappy compression.
 	Compression Compression
+
+	// CompressionLevel defines the level of the compression.
+	//
+	// The default value (DefaultCompressionLevel) is 8.
+	CompressionLevel int
 
 	// DisableBufferPool allows disable use of util.BufferPool functionality.
 	//
@@ -508,6 +514,13 @@ func (o *Options) GetCompression() Compression {
 		return DefaultCompressionType
 	}
 	return o.Compression
+}
+
+func (o *Options) GetCompressionLevel() int {
+	if o == nil || o.CompressionLevel < -2 || o.Compression > 9 {
+		return DefaultCompressionLevel
+	}
+	return o.CompressionLevel
 }
 
 func (o *Options) GetDisableBufferPool() bool {

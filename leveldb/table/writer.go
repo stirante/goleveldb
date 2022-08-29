@@ -143,10 +143,11 @@ type Writer struct {
 	writer io.Writer
 	err    error
 	// Options
-	cmp         comparer.Comparer
-	filter      filter.Filter
-	compression opt.Compression
-	blockSize   int
+	cmp              comparer.Comparer
+	filter           filter.Filter
+	compression      opt.Compression
+	compressionLevel int
+	blockSize        int
 
 	dataBlock   blockWriter
 	indexBlock  blockWriter
@@ -164,7 +165,8 @@ type Writer struct {
 
 var mutex = sync.Mutex{}
 var compressed = &bytes.Buffer{}
-var writer, _ = flate.NewWriter(compressed, 5)
+var compressionLevel = opt.DefaultCompressionLevel
+var writer, _ = flate.NewWriter(compressed, compressionLevel)
 
 func (w *Writer) writeBlock(buf *util.Buffer, compression opt.Compression) (bh blockHandle, err error) {
 	// Compress the buffer if necessary.
@@ -181,6 +183,10 @@ func (w *Writer) writeBlock(buf *util.Buffer, compression opt.Compression) (bh b
 		b[n] = blockTypeSnappyCompression
 	case opt.FlateCompression:
 		mutex.Lock()
+		if compressionLevel != w.compressionLevel {
+			w.compressionLevel = compressionLevel
+			writer, _ = flate.NewWriter(compressed, compressionLevel)
+		}
 		if _, err := writer.Write(buf.Bytes()); err != nil {
 			return blockHandle{}, fmt.Errorf("writeBlock: flate compression failed: %v", err)
 		}
@@ -380,12 +386,13 @@ func (w *Writer) Close() error {
 // Table writer is not safe for concurrent use.
 func NewWriter(f io.Writer, o *opt.Options) *Writer {
 	w := &Writer{
-		writer:          f,
-		cmp:             o.GetComparer(),
-		filter:          o.GetFilter(),
-		compression:     o.GetCompression(),
-		blockSize:       o.GetBlockSize(),
-		comparerScratch: make([]byte, 0),
+		writer:           f,
+		cmp:              o.GetComparer(),
+		filter:           o.GetFilter(),
+		compression:      o.GetCompression(),
+		compressionLevel: o.GetCompressionLevel(),
+		blockSize:        o.GetBlockSize(),
+		comparerScratch:  make([]byte, 0),
 	}
 	// data block
 	w.dataBlock.restartInterval = o.GetBlockRestartInterval()
