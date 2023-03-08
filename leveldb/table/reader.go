@@ -11,6 +11,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"github.com/klauspost/compress/flate"
+	"github.com/klauspost/compress/zlib"
 	"io"
 	"sort"
 	"strings"
@@ -567,6 +568,7 @@ var bufferPool = sync.Pool{
 	},
 }
 var reader io.ReadCloser
+var readerRaw io.ReadCloser
 var rmu sync.Mutex
 
 func (r *Reader) readRawBlock(bh blockHandle, verifyChecksum bool) ([]byte, error) {
@@ -607,9 +609,16 @@ func (r *Reader) readRawBlock(bh blockHandle, verifyChecksum bool) ([]byte, erro
 
 		rmu.Lock()
 		if reader == nil {
-			reader = flate.NewReader(bytes.NewBuffer(data[:bh.length]))
+			var err error
+			reader, err = zlib.NewReader(bytes.NewBuffer(data[:bh.length]))
+			if err != nil {
+				buf.Reset()
+				bufferPool.Put(buf)
+				rmu.Unlock()
+				return nil, r.newErrCorruptedBH(bh, err.Error())
+			}
 		} else {
-			_ = reader.(flate.Resetter).Reset(bytes.NewBuffer(data[:bh.length]), nil)
+			_ = reader.(zlib.Resetter).Reset(bytes.NewBuffer(data[:bh.length]), nil)
 		}
 		_, _ = buf.ReadFrom(reader)
 
@@ -628,14 +637,14 @@ func (r *Reader) readRawBlock(bh blockHandle, verifyChecksum bool) ([]byte, erro
 		buf := bufferPool.Get().(*bytes.Buffer)
 
 		rmu.Lock()
-		if reader == nil {
-			reader = flate.NewReader(bytes.NewBuffer(data[:bh.length]))
+		if readerRaw == nil {
+			readerRaw = flate.NewReader(bytes.NewBuffer(data[:bh.length]))
 		} else {
-			_ = reader.(flate.Resetter).Reset(bytes.NewBuffer(data[:bh.length]), nil)
+			_ = readerRaw.(flate.Resetter).Reset(bytes.NewBuffer(data[:bh.length]), nil)
 		}
-		_, _ = buf.ReadFrom(reader)
+		_, _ = buf.ReadFrom(readerRaw)
 
-		if err := reader.Close(); err != nil {
+		if err := readerRaw.Close(); err != nil {
 			buf.Reset()
 			bufferPool.Put(buf)
 			rmu.Unlock()
