@@ -628,7 +628,16 @@ func (r *Reader) readRawBlock(bh blockHandle, verifyChecksum bool) ([]byte, erro
 			rmu.Unlock()
 			return nil, r.newErrCorruptedBH(bh, err.Error())
 		}
-		data = append([]byte(nil), buf.Bytes()...)
+
+		// Return the compressed buffer to the pool as it's no longer needed.
+		r.bpool.Put(data)
+
+		// Allocate decompressed output from the buffer pool and copy into it.
+		decLen := buf.Len()
+		decData := r.bpool.Get(decLen)
+		copy(decData, buf.Bytes())
+		data = decData
+
 		buf.Reset()
 		rmu.Unlock()
 
@@ -650,7 +659,16 @@ func (r *Reader) readRawBlock(bh blockHandle, verifyChecksum bool) ([]byte, erro
 			rmu.Unlock()
 			return nil, r.newErrCorruptedBH(bh, err.Error())
 		}
-		data = append([]byte(nil), buf.Bytes()...)
+
+		// Return the compressed buffer to the pool as it's no longer needed.
+		r.bpool.Put(data)
+
+		// Allocate decompressed output from the buffer pool and copy into it.
+		decLen := buf.Len()
+		decData := r.bpool.Get(decLen)
+		copy(decData, buf.Bytes())
+		data = decData
+
 		buf.Reset()
 		rmu.Unlock()
 
