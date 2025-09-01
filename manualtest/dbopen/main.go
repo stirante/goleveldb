@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/df-mc/goleveldb/leveldb"
 	"github.com/df-mc/goleveldb/leveldb/opt"
-	"os"
 )
 
 func main() {
@@ -22,7 +23,9 @@ func main() {
 	}
 	iter := file.NewIterator(nil, nil)
 	iter.First()
-	fmt.Println(string(iter.Key()))
+	//os.Mkdir("out", 0755)
+	fmt.Println(ToHex(iter.Key()))
+	//os.WriteFile("out/"+ToHex(iter.Key()), iter.Value(), 0644)
 	if iter.Error() != nil {
 		panic(iter.Error())
 	}
@@ -30,8 +33,17 @@ func main() {
 		if iter.Error() != nil {
 			panic(iter.Error())
 		}
-		fmt.Println(string(iter.Key()))
+		fmt.Println(ToHex(iter.Key()))
+		//os.WriteFile("out/"+ToHex(iter.Key()), iter.Value(), 0644)
 	}
 	iter.Release()
 	err = file.Close()
+}
+
+func ToHex(bytes []byte) string {
+	hex := ""
+	for _, b := range bytes {
+		hex += fmt.Sprintf("%02x", b)
+	}
+	return hex
 }
