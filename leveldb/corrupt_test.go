@@ -474,6 +474,7 @@ func TestCorruptDB_RecoverTable(t *testing.T) {
 		WriteBuffer:         112 * opt.KiB,
 		CompactionTableSize: 90 * opt.KiB,
 		Filter:              filter.NewBloomFilter(10),
+		Compression:         opt.SnappyCompression,
 	})
 	defer h.close()
 

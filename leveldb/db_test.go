@@ -2524,6 +2524,7 @@ func TestDB_TableCompactionBuilder(t *testing.T) {
 		CompactionExpandLimitFactor:  1,
 		CompactionGPOverlapsFactor:   1,
 		DisableBlockCache:            true,
+		Compression:                  opt.SnappyCompression,
 	}
 	s, err := newSession(stor, o)
 	if err != nil {
